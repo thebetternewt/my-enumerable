@@ -58,4 +58,17 @@ module Enumerable
     end
   end
 
+  def my_count(*match)
+    match_count = 0
+    if !match.empty?
+      self.my_each { |item| item == match[0] ? match_count += 1 : nil }
+      return match_count
+    elsif block_given?
+      self.my_each { |item| yield(item) ? match_count += 1: nil }
+      return match_count
+    else
+      self.my_each { |item| match_count += 1 }
+      match_count
+    end
+  end
 end
