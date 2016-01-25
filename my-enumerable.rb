@@ -88,5 +88,14 @@ module Enumerable
     self
   end
 
+  def my_inject(*initial_value)
+    self_arr = self
+    self.class == Range ? (self_arr = self.map {|item| item}) : nil
 
+    initial_value.empty? ? final_value = self_arr[0] : (final_value = initial_value[0])
+
+    self_arr.my_each { |item| final_value = yield(final_value, item) }
+    final_value
+  end
+  
 end
