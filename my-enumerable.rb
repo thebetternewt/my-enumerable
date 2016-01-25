@@ -71,4 +71,22 @@ module Enumerable
       match_count
     end
   end
+
+  def my_map
+    if block_given?
+      arr = []
+      self.my_each { |item| arr << yield(item) }
+      return arr
+    end
+    self
+  end
+
+  def my_map!
+    if block_given?
+      self.my_each_with_index { |item, index| self[index] = yield(item) }
+    end
+    self
+  end
+
+
 end
