@@ -88,14 +88,18 @@ module Enumerable
     self
   end
 
-  def my_inject(*initial_value)
-    self_arr = self
-    self.class == Range ? (self_arr = self.map {|item| item}) : nil
+  def my_map2(proc) #Must take a proc, can also accept a block.
+    arr = []
+    self.my_each { |item| arr << proc.call(item) }
+    block_given? ? yield : nil;
+    return arr
+  end
 
-    initial_value.empty? ? final_value = self_arr[0] : (final_value = initial_value[0])
-
+  def my_inject(*input)
+    self.class == Range ? (self_arr = Array (self)) : self_arr = self #Convert input to array.
+    input.empty? ? final_value = self_arr[0] : (final_value = input[0])
     self_arr.my_each { |item| final_value = yield(final_value, item) }
     final_value
   end
-  
+
 end
